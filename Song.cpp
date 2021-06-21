@@ -1,29 +1,38 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <set>
 #include <vector>
+class Song
+{
+public:
+	std::string name;
+	int count;
+};
 int main()
 {
-	std::string line;//word by word variable
-	std::vector<std::string> v; // holds all orig words 
-	bool found = false;// vaiable to not allow for duplicate words to be pushed onto the vector
-	std::ifstream myfile ("Candy.txt");
+	std::string line;
+	std::vector<Song> v; 
+	bool found = false;
+	std::ifstream myfile ("ex.txt");
+	Song title;
 	if (myfile.is_open())
 	{
 		while(myfile >> line)
 		{
+		title.name=line;
 		if(v.size() ==0)
 		{
-			v.push_back(line);
+			title.count =1;
+			v.push_back(title);
 		}
 		else
 		{
 			for(int i=0; i<v.size();++i)
 			{
-				if(line==v[i])
+				if(line==v[i].name)
 				{
 					found=true;
+					v[i].count = v[i].count+1;
 					break;
 				}
 			}
@@ -33,14 +42,15 @@ int main()
 			}
 			else 
 			{
-				v.push_back(line);
+				title.count=1;
+				v.push_back(title);
 				found = false;
 			}
 		}
 	}
 	for(int i=0; i<v.size();++i)
 	{
-		std::cout << v[i] << " ";
+		std::cout << v[i].name << " " << v[i].count<< " ";
 	}
 	std::cout << std::endl;
 	std::cout << "The total number of orig words is : " << v.size()+1 << std::endl;
